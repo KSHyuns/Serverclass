@@ -26,6 +26,14 @@ public enum ResponseType
     SUSSESS
 }
 
+public struct AutoLoginForm
+{
+    public string id;
+    public bool isAuthenticated;
+    public string username;
+    public string password;
+}
+
 public class Login : MonoBehaviour {
 
     public InputField idInputField;
@@ -34,9 +42,20 @@ public class Login : MonoBehaviour {
     [SerializeField]
     private Button login;
 
+
+    public bool isAu;
+
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+      //  DontDestroyOnLoad(this);
+
+        
+    }
+
+
+    private void Start()
+    {
+       StartCoroutine(autoLogin());
     }
 
 
@@ -57,12 +76,12 @@ public class Login : MonoBehaviour {
         else
         {
 
-            StartCoroutine(Logins(loginForm));
+            StartCoroutine(Logins(loginForm, "http://localhost:3000/users/signin"));
             StartCoroutine(loginbuttonOneClick());
         }
     }
 
-    IEnumerator Logins(LoginForm loginForm)
+    IEnumerator Logins(LoginForm loginForm , string Url)
     {
         login.interactable = false;
       //  login.gameObject.SetActive(false);
@@ -71,7 +90,7 @@ public class Login : MonoBehaviour {
         string data = JsonUtility.ToJson(loginForm);
         byte[] sendData = Encoding.UTF8.GetBytes(data);
 
-        using (UnityWebRequest www = UnityWebRequest.Put("http://localhost:3000/users/signin", sendData))
+        using (UnityWebRequest www = UnityWebRequest.Put(Url, sendData))
         {
             www.method = "POST";
             www.SetRequestHeader("Content-Type", "application/json");
@@ -110,7 +129,7 @@ public class Login : MonoBehaviour {
                     { PlayerPrefs.SetString("sid", sid); }
 
                     login.interactable = true;
-                    SceneManager.LoadScene(1);
+                    SceneManager.LoadScene(2);
                 }
             }
         }
@@ -125,5 +144,38 @@ public class Login : MonoBehaviour {
         login.interactable = true;
 
 
+    }
+
+
+
+
+    IEnumerator autoLogin()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:3000/users/autoLogin"))
+        {
+            string getid = PlayerPrefs.GetString("sid");
+            Debug.Log(getid);
+            www.SetRequestHeader("Cookie", getid);
+
+            www.SetRequestHeader("Content-Type", "application/json");
+
+            yield return www.SendWebRequest();
+
+            string str = www.downloadHandler.text;
+            Debug.Log(str);
+
+            var datastr = JsonUtility.FromJson<AutoLoginForm>(str);
+
+            Debug.Log(datastr.isAuthenticated);
+            LoginForm loginForm = new LoginForm();
+            loginForm.username = datastr.username;
+            loginForm.password = datastr.password;
+
+            StartCoroutine(Logins(loginForm, "http://localhost:3000/users/signin2"));
+           
+        }
+
+
+        
     }
 }

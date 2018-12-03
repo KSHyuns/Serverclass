@@ -8,7 +8,7 @@ using System.Text;
 
 public struct UserInfoNick
 {
-    public bool isAuthenticated;
+    public bool isAu;
     public string username;
     public string nickname;
 }
@@ -37,25 +37,23 @@ public class sessionTest : MonoBehaviour {
     {
         using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:3000/users/info"))
         {
-           
+
+            string getid = PlayerPrefs.GetString("sid");
+            www.SetRequestHeader("Cookie",getid);
+
             www.SetRequestHeader("Content-Type", "application/json");
 
             yield return www.SendWebRequest();
 
 
-            string username = PlayerPrefs.GetString("username");
-            Debug.Log(username);
             string resultstr = www.downloadHandler.text;
-                Debug.Log(resultstr);
-               // var result = JsonUtility.FromJson<UserInfoNick>(username);
-               // Debug.Log(result);
-                //usernameText.text = result.username;
-                //nicknameText.text = result.nickname;
-                //sessionnameText.text = resultstr;
-            
+            Debug.Log(resultstr);
 
+            var dataStr = JsonUtility.FromJson<UserInfoNick>(resultstr);
 
-
+            usernameText.text = dataStr.username;
+            nicknameText.text = dataStr.nickname;
+            sessionnameText.text = "자동로그인 : " + dataStr.isAu.ToString();
 
         }
     }

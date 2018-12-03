@@ -37,17 +37,7 @@ router.get('/info',  util.isLogined, function(req, res, next)
 
     res.json(resuotObj);
   } 
-  else
-  {
-    var resuotObj2 = {
-      isAuthenticated : req.session.isAuthenticated,
-      username:  req.session.username,
-      nickname : req.session.nickname
-    };
-
-    res.json(resuotObj2);
-  }
-
+  
 
 });
 // 로그인
@@ -78,6 +68,10 @@ router.post('/signin', function(req, res, next) {
       });
   }
 });
+
+
+
+
 
 // 사용자 등록
 router.post('/add', function(req, res, next) {
@@ -141,6 +135,65 @@ router.get('/score', util.isLogined, function(req, res, next) {
     res.json(resultObj);
   });
 });
+
+
+
+
+router.get('/autoLogin',util.isLogined,function(req,res,next){
+  var userid = req.session.userid;
+  var password = req.session.password;
+  var isAuthenticated = req.session.isAuthenticated;
+  var database = req.app.get("database");
+  var users = database.collection('users');
+
+  users.findOne({ _id: ObjectId(userid) }, function(err, result) {
+    if (err) throw err;
+
+    var resultObj = {
+      _id: result._id.toString(),
+      isAuthenticated : isAuthenticated,
+      username :result.username,
+      password : result.password
+    };
+
+    res.json(resultObj);
+  });
+
+});
+
+
+router.post('/signin2', function(req, res, next) {
+  var username = req.body.username;
+  var password = req.body.password;
+
+  var database = req.app.get('database');
+  var users = database.collection('users');
+
+  if (username !== undefined && password !== undefined) {
+      users.findOne({ username: username }, function(err, result) {
+        if (result) {
+          // var compareResult = bcrypt.compareSync(password, result.password);
+          //if (compareResult) {
+         if (password === result.password) {
+            req.session.isAuthenticated = true;
+            req.session.userid = result._id.toString();
+            req.session.username = result.username;
+            req.session.nickname = result.nickname;
+            res.json({ result: ResponseType.SUCCESS });
+          } else {
+            res.json({ result:ResponseType.INVALID_PASSWORD });
+          }
+        } else {
+          res.json({ result:ResponseType.INVALID_USERNAME });
+        }
+      });
+  }
+});
+
+
+
+
+
 
 
 module.exports = router;
