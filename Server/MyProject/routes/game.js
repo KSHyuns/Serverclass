@@ -11,11 +11,29 @@ module.exports = function(server)
     io.on('connection',function(socket){
             console.log("Connected : " + socket.id);
 
-            //접속중일때,  접속이 끈켯을때 
+            //접속중일때,  접속이 끈켯다면
             //접속이 끈켯을때
             socket.on('disconnect', function(reason){
                 console.log('Disconnected : '+socket.id);
              });
+
+            //  socket.on('hi',function(reason){
+            //     console.log('hi');
+            //     //socket.emit('hello'); //한명에게만 소켓을 보낸다.
+            //     //io.emit('hello');   //모든 소켓들에게 메시지를 보낸다.
+            //     //socket.broadcast.emit('hello');   //메세지를 직접받은 클라이언트 외 나머지 클라이언트들에게 메세지를 보낸다.
+            //  });
+
+            //메세지가 왔는지 알리는 식별자
+             socket.on('message',function(msg){
+                //메세지가 잘 들어오는지 확인
+                //들어오는 메세지의 구조를 볼 수 있다
+                console.dir(msg);
+                socket.broadcast.emit('chat',msg);
+                
+                //socket.broadcast.emit('chat');
+             });
+
 
     });
 
