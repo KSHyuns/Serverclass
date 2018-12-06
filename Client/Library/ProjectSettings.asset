@@ -743,9 +743,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 2343d018-4833-4176-9e72-ad779cea3639
-  projectName: UserInput
-  organizationId: bigpixel0
+  cloudProjectId: 9aef5957-bd83-48f8-890b-a05507d69668
+  projectName: Pixel
+  organizationId: vhstm2
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
