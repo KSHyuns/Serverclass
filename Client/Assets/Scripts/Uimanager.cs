@@ -40,7 +40,7 @@ public class Uimanager : MonoBehaviour {
     {
 
 
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:3000/users/addscore/" + score))
+        using (UnityWebRequest www = UnityWebRequest.Get(" https://asdads.herokuapp.com/users/addscore/" + score))
         {
             string sid = PlayerPrefs.GetString("sid");
 
@@ -62,7 +62,7 @@ public class Uimanager : MonoBehaviour {
 
     IEnumerator GetScore()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:3000/users/score"))
+        using (UnityWebRequest www = UnityWebRequest.Get(" https://asdads.herokuapp.com/users/score"))
         {
             string sid = PlayerPrefs.GetString("sid");
 
@@ -96,7 +96,7 @@ public class Uimanager : MonoBehaviour {
     }
     IEnumerator GetUserInfo()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:3000/users/info"))
+        using (UnityWebRequest www = UnityWebRequest.Get(" https://asdads.herokuapp.com/users/info"))
         {
             string username = PlayerPrefs.GetString("username");
 

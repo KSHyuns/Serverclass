@@ -35,7 +35,7 @@ public class sessionTest : MonoBehaviour {
 
     IEnumerator netSession()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:3000/users/info"))
+        using (UnityWebRequest www = UnityWebRequest.Get(" https://asdads.herokuapp.com/users/info"))
         {
 
             string getid = PlayerPrefs.GetString("sid");

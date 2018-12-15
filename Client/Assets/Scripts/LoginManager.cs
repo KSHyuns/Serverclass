@@ -82,7 +82,7 @@ public class LoginManager : MonoBehaviour {
 
 
 
-        using (UnityWebRequest www = UnityWebRequest.Put("http://localhost:3000/users/add",sendData))
+        using (UnityWebRequest www = UnityWebRequest.Put(" https://asdads.herokuapp.com/users/add", sendData))
         {
             www.method = "POST";
             www.SetRequestHeader("Content-Type", "application/json");

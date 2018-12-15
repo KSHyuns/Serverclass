@@ -76,7 +76,7 @@ public class Login : MonoBehaviour {
         else
         {
 
-            StartCoroutine(Logins(loginForm, "http://localhost:3000/users/signin"));
+            StartCoroutine(Logins(loginForm, " https://asdads.herokuapp.com/users/signin"));
             StartCoroutine(loginbuttonOneClick());
         }
     }
@@ -151,7 +151,7 @@ public class Login : MonoBehaviour {
 
     IEnumerator autoLogin()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:3000/users/autoLogin"))
+        using (UnityWebRequest www = UnityWebRequest.Get(" https://asdads.herokuapp.com/users/autoLogin"))
         {
             string getid = PlayerPrefs.GetString("sid");
             Debug.Log(getid);
@@ -171,7 +171,7 @@ public class Login : MonoBehaviour {
             loginForm.username = datastr.username;
             loginForm.password = datastr.password;
 
-            StartCoroutine(Logins(loginForm, "http://localhost:3000/users/signin2"));
+            StartCoroutine(Logins(loginForm, " https://asdads.herokuapp.com/users/signin2"));
            
         }
 

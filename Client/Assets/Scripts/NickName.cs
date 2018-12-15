@@ -44,7 +44,7 @@ public class NickName : MonoBehaviour {
         byte[] parseData = Encoding.UTF8.GetBytes(data);
 
 
-        using (UnityWebRequest www = UnityWebRequest.Put("http://localhost:3000/users/nickname", parseData))
+        using (UnityWebRequest www = UnityWebRequest.Put(" https://asdads.herokuapp.com/users/nickname", parseData))
         {
             www.method = "POST";
             www.SetRequestHeader("Content-Type", "application/json");
